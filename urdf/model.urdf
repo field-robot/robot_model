@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<robot name = "myfirst">
+	<link name ="base_link">
+		<visual>
+			<geometry>
+				<box size="0.6 .3 .125"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.1025"/>
+			
+		</visual>
+	</link>
+	<link name="left_front_wheel">
+		<visual>
+			<geometry>
+				<cylinder length="0.05" radius="0.075"/>
+			</geometry>
+			
+		</visual>
+	</link>
+	<link name="left_back_wheel">
+		<visual>
+			<geometry>
+				<cylinder length="0.05" radius="0.075"/>
+			</geometry>
+			
+		</visual>
+	</link>
+	<link name="right_front_wheel">
+		<visual>
+			<geometry>
+				<cylinder length="0.05" radius="0.075"/>
+			</geometry>
+			
+		</visual>
+	</link>
+	<link name="right_back_wheel">
+		<visual>
+			<geometry>
+				<cylinder length="0.05" radius="0.075"/>
+			</geometry>
+			
+		</visual>
+	</link>
+
+	<link name="left_front_post">
+		<visual>
+			<geometry>
+				<cylinder length="0.04" radius="0.02"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.2 0.1075 0.0825"/>
+		</visual>
+	</link>
+	<link name="left_back_post">
+		<visual>
+			<geometry>
+				<cylinder length="0.04" radius="0.02"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="-0.2 0.1075 0.0825"/>
+		</visual>
+	</link>
+	<link name="right_front_post">
+		<visual>
+			<geometry>
+				<cylinder length="0.04" radius="0.02"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.2 -0.1075 0.0825"/>
+		</visual>
+	</link>
+	<link name="right_back_post">
+		<visual>
+			<geometry>
+				<cylinder length="0.04" radius="0.02"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="-0.2 -0.1075 0.0825"/>
+		</visual>
+	</link>
+
+	<link name ="top_plate">
+		<visual>
+			<geometry>
+				<box size="0.6 .3 .03"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0 0 0.1175"/>
+		</visual>
+	</link>
+
+
+
+	<joint name="base_to_left_front_wheel" type="continuous">
+		<parent link="base_link"/>
+		<child link="left_front_wheel"/>
+		<axis xyz="0 0 1"/>
+		<origin rpy="0 1.57 1.57" xyz="0.2 0.175 -0.0275"/>
+	</joint>
+	<joint name="base_to_left_back_wheel" type="continuous">
+		<parent link="base_link"/>
+		<child link="left_back_wheel"/>
+		<axis xyz="0 0 1"/>
+		<origin rpy="0 1.57 1.57" xyz="-0.2 0.175 -0.0275"/>
+	</joint>
+	<joint name="base_to_right_front_wheel" type="continuous">
+		<parent link="base_link"/>
+		<child link="right_front_wheel"/>
+		<axis xyz="0 0 1"/>
+		<origin rpy="0 1.57 1.57" xyz="0.2 -0.175 -0.0275"/>
+	</joint>
+	<joint name="base_to_right_back_wheel" type="continuous">
+		<parent link="base_link"/>
+		<child link="right_back_wheel"/>
+		<axis xyz="0 0 1"/>
+		<origin rpy="0 1.57 1.57" xyz="-0.2 -0.175 -0.0275"/>
+	</joint>
+
+
+	<joint name="base_to_left_front_post" type="fixed">
+		<parent link="base_link"/>
+		<child link="left_front_post"/>
+	</joint>
+	<joint name="base_to_left_back_post" type="fixed">
+		<parent link="base_link"/>
+		<child link="left_back_post"/>
+	</joint>
+	<joint name="base_to_right_front_post" type="fixed">
+		<parent link="base_link"/>
+		<child link="right_front_post"/>
+	</joint>
+	<joint name="base_to_right_back_post" type="fixed">
+		<parent link="base_link"/>
+		<child link="right_back_post"/>
+	</joint>
+
+	<joint name="base_to_top_plate" type="fixed">
+		<parent link="base_link"/>
+		<child link="top_plate"/>
+	</joint>
+
+    <link name="laser">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.000001" ixy="0.0" ixz="0.0"
+          iyy="0.000001" iyz="0.0" izz="0.000001" />
+      </inertial>
+    </link>
+
+    <joint name="laser_mount_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="laser" />
+      <origin rpy="0 0 0" xyz="0 0 0.2"/>
+    </joint>
+
+</robot>
