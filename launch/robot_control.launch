@@ -1,0 +1,32 @@
+<launch>
+
+  <arg name="model" default="$(find urdf_tutorial)/urdf/model.urdf.xacro"/>
+  
+  <!-- This param file is where any environment-agnostic (live or simulation)
+  configuration should be loaded, including controllers -->
+  <rosparam command="load" file="$(find urdf_tutorial)/config/control.yaml" />
+
+  <!-- This node loads the two controllers into a controller manager (real or simulated). The
+  controllers are defined in config/control.yaml -->
+  <node name="r2d2_controller_spawner" pkg="controller_manager" type="spawner"
+    args="r2d2_joint_state_controller
+          r2d2_diff_drive_controller
+
+          --shutdown-timeout 3"/>
+
+<!--  <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
+
+    <param name="default_topic" value="/r2d2_diff_drive_controller/cmd_vel"/>
+  </node>-->
+
+  <node name="wheels_controller" pkg="wheels_controller" type="wheels_controller"/>
+    <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher"  name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0" />
+  </node>
+
+</launch>
