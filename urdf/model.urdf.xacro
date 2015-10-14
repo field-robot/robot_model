@@ -1,12 +1,22 @@
 <?xml version="1.0"?>
-<robot name="field_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro"
+		name="field_robot_model">
+
+
+
+
+  
 	<xacro:property name="wheel_diameter" value="0.15"/>
 	<xacro:property name="wheel_depth" value="0.05"/>
 	<xacro:property name="wheel_y_pos" value="0.2"/>
 	<xacro:property name="wheel_x_pos" value="0.175"/>
 	<xacro:property name="box_h" value="0.125"/>
-	<xacro:property name="z_offset" value="${0.5*box_h+0.0275}"/>
-	<xacro:property name="laser_offset" value="0.18"/>
+	<xacro:property name="z_offset_" value="${0.5*box_h+0.055}"/>
+	<xacro:property name="laser_offset" value="0.24"/>
  	<xacro:macro name="default_inertial" params="mass">
     	<inertial>
       		<mass value="${mass}" />
@@ -48,7 +58,7 @@
 			<parent link="base_link"/>
 			<child link="${prefix}_wheel"/>
 			<axis xyz="0 0 1"/>
-			<origin rpy="0 1.57 1.57" xyz="${h_refl*wheel_y_pos} ${v_refl*wheel_x_pos} ${z_offset-0.0275}"/>
+			<origin rpy="0 1.57 1.57" xyz="${h_refl*wheel_y_pos} ${v_refl*wheel_x_pos+v_refl*0.01} ${z_offset_-0.0275}"/>
 		</joint>
 
 		<transmission name="${prefix}_trans">
@@ -77,13 +87,13 @@
 				<geometry>
 					<cylinder length="0.04" radius="0.02"/>
 				</geometry>
-				<origin rpy="0 0 0" xyz="${h_refl*0.2} ${v_refl*0.1075} ${z_offset+0.0825}"/>
+				<origin rpy="0 0 0" xyz="${h_refl*0.2} ${v_refl*0.1075} ${z_offset_+0.0825}"/>
 			</visual>
 			<collision>
 				<geometry>
 					<cylinder length="0.04" radius="0.02"/>
 				</geometry>
-				<origin rpy="0 0 0" xyz="${h_refl*0.2} ${v_refl*0.1075} ${z_offset+0.0825}"/>
+				<origin rpy="0 0 0" xyz="${h_refl*0.2} ${v_refl*0.1075} ${z_offset_+0.0825}"/>
 			</collision>
 
 			<xacro:default_inertial mass="1"/>
@@ -99,14 +109,15 @@
 			<geometry>
 				<box size="0.6 .3 .125"/>
 			</geometry>
-			<origin rpy="0 0 0" xyz="0.0 0.0 ${z_offset}"/>			
+			<origin rpy="0 0 0" xyz="0.0 0.0 ${z_offset_}"/>			
 		</visual>
 		<collision>
 			<geometry>
 				<box size="0.6 .3 .125"/>
 			</geometry>
-			<origin rpy="0 0 0" xyz="0.0 0.0 ${z_offset}"/>
-		</collision>		
+			<origin rpy="0 0 0" xyz="0.0 0.0 ${z_offset_}"/>
+		</collision>	
+		<xacro:default_inertial mass="20"/>	
 	</link>
 
 	<xacro:wheel prefix="left_front" h_refl="1" v_refl="1"/>
@@ -125,7 +136,7 @@
 			<geometry>
 				<box size="0.6 .3 .03"/>
 			</geometry>
-			<origin rpy="0 0 0" xyz="0 0 ${z_offset+0.1175}"/>
+			<origin rpy="0 0 0" xyz="0 0 ${z_offset_+0.1175}"/>
 		</visual>
 		<xacro:default_inertial mass="10"/>
 	</link>
@@ -135,30 +146,21 @@
 		<child link="top_plate"/>
 	</joint>
 
-    <link name="laser">
-		<visual>
-			<geometry>
-				<mesh filename="package://sick_tim/meshes/sick_tim310.stl"/>
-			</geometry>
-			<material name="black"/>
-		</visual>
-      <inertial>
-        <mass value="0.001" />
-        <origin xyz="0 0 0" />
-        <inertia ixx="0.000001" ixy="0.0" ixz="0.0"
-          iyy="0.000001" iyz="0.0" izz="0.000001" />
-      </inertial>
-    </link>
-
-    <joint name="laser_mount_joint" type="fixed">
-      <parent link="base_link" />
-      <child link="laser" />
-      <origin rpy="0 3.14 -1.57" xyz="0 0 ${laser_offset}"/>
-    </joint>
-  <gazebo>
+  <xacro:include filename="$(find sick_tim)/urdf/sick_tim.urdf.xacro" />
+	
+  <xacro:sick_tim310 name="laser" ros_topic="gazebo/scan"  />
+<gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       <robotNamespace>/</robotNamespace>
     </plugin>
+	
   </gazebo>
+ 
+      <joint name="laser_base_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="laser_mount_link" />
+      <origin rpy="0 3.14 3.14" xyz="0 0 ${laser_offset}"/>
+    </joint>
+	
 </robot>
 
