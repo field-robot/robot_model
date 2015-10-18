@@ -21,8 +21,9 @@
 
           --shutdown-timeout 3"/>
 
-     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
-    <param name = "scan" value="base_scan"/>
+ 
+<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
+    <param name = "scan" value="gazebo/scan"/>
     <param name= "_odom_frame" value="odom"/>
       <param name="map_update_interval" value="0.1"/>
       <param name="maxUrange" value="4.0"/>
@@ -56,7 +57,7 @@
     </node>
 
    
-
+<!--
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find field_robot_2dnav)/costmaps/slam_costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find field_robot_2dnav)/costmaps/slam_costmap_common_params.yaml" command="load" ns="local_costmap" />
@@ -67,6 +68,9 @@
     <param name="recovery_behavior_enabled" type="bool" value="true"/>
 	<remap from="cmd_vel" to="r2d2_diff_drive_controller/cmd_vel"/>
 
-  </node> 
+  </node> -->
+<include file="$(find joy_cmd_vel)/launch/joy_stick.launch"/>
+<node pkg="wheels_controller" type="wheels_controller" name="wheels_controller"/>
+
 
 </launch>

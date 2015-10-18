@@ -15,7 +15,7 @@ r2d2_diff_drive_controller:
   left_wheel: ['left_back_wheel_joint', 'left_front_wheel_joint']
   right_wheel: ['right_back_wheel_joint', 'right_front_wheel_joint']
 
-  enable_odom_tf: true
+  
   wheel_separation: 0.38
 
   # Odometry covariances for the encoder output of the robot. These values should
