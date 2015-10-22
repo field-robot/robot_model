@@ -15,7 +15,7 @@ r2d2_diff_drive_controller:
   left_wheel: ['left_back_wheel_joint', 'left_front_wheel_joint']
   right_wheel: ['right_back_wheel_joint', 'right_front_wheel_joint']
 
-  enable_odom_tf: true
+  
   wheel_separation: 0.38
 
   # Odometry covariances for the encoder output of the robot. These values should
@@ -31,13 +31,14 @@ r2d2_diff_drive_controller:
   linear:
     x:
       has_velocity_limits    : true
-      max_velocity           : 1.0   # m/s
+      max_velocity           : 1.5   # m/s
       has_acceleration_limits: true
       max_acceleration       : 0.6   # m/s^2
+      min_acceleration       : -1.0
   angular:
     z:
       has_velocity_limits    : true
-      max_velocity           : 2.0   # rad/s
+      max_velocity           : 5.0   # rad/s
       has_acceleration_limits: true
       max_acceleration       : 6.0   # rad/s^2
 
