@@ -31,10 +31,10 @@ r2d2_diff_drive_controller:
   linear:
     x:
       has_velocity_limits    : true
-      max_velocity           : 1.5   # m/s
+      max_velocity           : 2.0   # m/s
       has_acceleration_limits: true
-      max_acceleration       : 0.6   # m/s^2
-      min_acceleration       : -1.0
+      max_acceleration       : 3.0   # m/s^2
+
   angular:
     z:
       has_velocity_limits    : true
@@ -42,4 +42,10 @@ r2d2_diff_drive_controller:
       has_acceleration_limits: true
       max_acceleration       : 6.0   # rad/s^2
 
+joy_cmd_vel:
+ max_vel : 1.0
+ max_rot : 2.0
+
+slam_navigation:
+ free_cells_ : 85
 

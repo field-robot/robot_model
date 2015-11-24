@@ -1,0 +1,6 @@
+#parameters for wheels_controller node are set
+wheels_controller:
+  wheel_diameter: 0.15
+  wheel_distance: 0.3302
+  motor_deadzone: 80
+
